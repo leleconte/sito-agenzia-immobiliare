@@ -3,178 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynasty Luxe | Full Real Estate Database</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@200;300;500;600&display=swap" rel="stylesheet">
+    <title>Dynasty Luxe | Maze Bank Tower HQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #c5a059;
-            --dark-bg: #050505;
-            --card-bg: rgba(15, 15, 15, 0.98);
-            --text-light: #f4f4f4;
-            --border: #1a1a1a;
+            --dark: #050505;
+            --card: rgba(15, 15, 15, 0.98);
+            --border: rgba(197, 160, 89, 0.25);
+            --text: #f4f4f4;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body { 
-            background: linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.88)), 
-                        url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--text-light); 
-            font-family: 'Montserrat', sans-serif; 
+        body { background: var(--dark); color: var(--text); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+
+        /* Background Dinamico */
+        .bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center; z-index: -1;
         }
 
+        /* Navigazione */
         nav {
-            position: sticky; top: 0; z-index: 1000;
-            background: rgba(5, 5, 5, 0.98);
-            border-bottom: 1px solid var(--gold);
-            padding: 15px 0;
-            display: flex; justify-content: center; gap: 15px;
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(0, 0, 0, 0.9); border-bottom: 1px solid var(--gold);
+            padding: 20px 0; display: flex; justify-content: center; gap: 40px;
+            backdrop-filter: blur(10px);
         }
-
-        nav button {
-            background: none; border: none; color: var(--text-light); 
-            padding: 8px 16px; cursor: pointer; text-transform: uppercase;
-            font-size: 0.7rem; letter-spacing: 2px; transition: 0.3s;
+        nav a { 
+            color: var(--text); text-decoration: none; text-transform: uppercase; 
+            font-size: 0.75rem; letter-spacing: 4px; cursor: pointer; transition: 0.3s; opacity: 0.5;
         }
+        nav a.active { opacity: 1; color: var(--gold); font-weight: 600; }
 
-        nav button.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
+        /* Container Pagine */
+        .page { display: none; padding: 120px 20px 60px; min-height: 100vh; animation: fadeIn 0.6s ease-out; }
+        .page.active { display: block; }
 
-        header {
-            height: 35vh;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            text-align: center;
+        /* Header Styles */
+        header { text-align: center; margin-bottom: 60px; }
+        .hq-tag { font-size: 0.6rem; letter-spacing: 6px; color: var(--gold); text-transform: uppercase; margin-bottom: 15px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--gold); letter-spacing: 12px; }
+
+        /* Accordion (Tendine) */
+        .accordion { max-width: 1000px; margin: 0 auto; }
+        .acc-item { background: var(--card); border: 1px solid var(--border); margin-bottom: 10px; transition: 0.3s; }
+        .acc-header { 
+            padding: 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(197, 160, 89, 0.03); 
         }
+        .acc-header:hover { background: rgba(197, 160, 89, 0.08); }
+        .acc-header h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); }
+        
+        .acc-content { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0, 1, 0, 1); }
+        .acc-item.open .acc-content { max-height: 3000px; transition: max-height 0.8s ease-in; }
 
-        h1 { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold); letter-spacing: 10px; }
-
-        .container { max-width: 1100px; margin: 0 auto 100px; padding: 0 20px; }
-
-        .tab-content { display: none; animation: fadeIn 0.4s ease forwards; }
-        .tab-content.active { display: block; }
-
-        .category-block { margin-bottom: 50px; }
-        .category-title {
-            color: var(--gold); text-transform: uppercase; letter-spacing: 4px;
-            font-size: 1rem; margin-bottom: 20px; border-bottom: 1px solid var(--border);
-            padding-bottom: 10px; display: flex; justify-content: space-between;
+        /* Liste Proprietà */
+        .prop-row { 
+            display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 18px 25px;
+            border-top: 1px solid rgba(255,255,255,0.03); align-items: center; transition: 0.2s;
         }
+        .prop-row:hover { background: rgba(197, 160, 89, 0.05); }
+        .p-name { font-size: 0.8rem; font-weight: 500; }
+        .p-slots { font-size: 0.65rem; color: #666; text-transform: uppercase; }
+        .p-price { text-align: right; font-weight: 600; color: var(--gold); }
+        .price-orig { font-size: 0.7rem; text-decoration: line-through; color: #444; margin-right: 10px; font-weight: 400; }
 
-        .prop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+        /* Pagina Sede (Storia) */
+        .history-section { max-width: 800px; margin: 0 auto; line-height: 1.8; color: #bbb; text-align: center; }
+        .history-card { background: var(--card); border: 1px solid var(--border); padding: 40px; margin-top: 40px; }
 
-        .prop-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            padding: 20px; transition: 0.3s;
-        }
-        .prop-card:hover { border-color: var(--gold); transform: translateY(-3px); }
-        .prop-name { color: var(--gold); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 5px; }
-        .prop-desc { font-size: 0.75rem; color: #888; margin-bottom: 10px; }
-        .price-box { font-size: 0.9rem; }
-        .old-p { text-decoration: line-through; color: #444; margin-right: 10px; }
-        .new-p { color: #fff; font-weight: 700; }
+        /* Form Acquisizione */
+        .contact-form { max-width: 600px; margin: 0 auto; background: var(--card); border: 1px solid var(--gold); padding: 50px; }
+        input, textarea { width: 100%; background: #000; border: 1px solid #222; padding: 18px; color: #fff; margin-bottom: 20px; font-family: inherit; }
+        .btn-gold { width: 100%; padding: 22px; background: var(--gold); border: none; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 4px; transition: 0.3s; }
+        .btn-gold:hover { background: #fff; letter-spacing: 6px; }
 
-        .contact-card { background: var(--card-bg); padding: 50px; border: 1px solid var(--gold); max-width: 700px; margin: 0 auto; }
-        input, textarea { width: 100%; background: #000; border: 1px solid var(--border); padding: 15px; color: #fff; margin-bottom: 15px; font-family: inherit; }
-        .btn-gold { width: 100%; background: var(--gold); color: #000; border: none; padding: 20px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        footer { text-align: center; padding: 60px; color: #333; font-size: 0.7rem; letter-spacing: 2px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        footer { text-align: center; padding: 50px; font-size: 0.65rem; color: #444; letter-spacing: 3px; border-top: 1px solid #111; margin-top: 50px; }
+        .status-dot { color: #00ff00; margin-right: 8px; }
     </style>
 </head>
 <body>
 
+<div class="bg-overlay"></div>
+
 <nav>
-    <button class="tab-link active" onclick="openTab(event, 'listing')">Proprietà</button>
-    <button class="tab-link" onclick="openTab(event, 'contact')">Acquisizione</button>
+    <a onclick="showPage('home')" id="nav-home" class="active">Ufficio Maze Bank</a>
+    <a onclick="showPage('database')" id="nav-database">Database Proprietà</a>
+    <a onclick="showPage('contact')" id="nav-contact">Protocollo Acquisizione</a>
 </nav>
 
-<header>
-    <div style="font-size: 0.6rem; letter-spacing: 5px; color: var(--gold); margin-bottom: 10px;">MAZE BANK TOWER HQ</div>
-    <h1>DYNASTY LUXE</h1>
-</header>
-
-<div class="container">
-
-    <div id="listing" class="tab-content active">
-        
-        <div class="category-block">
-            <h3 class="category-title"><span>High-End Apartments</span> <span>10 Posti Auto</span></h3>
-            <div class="prop-grid">
-                <div class="prop-card"><div class="prop-name">Eclipse Towers (Apt 31, 5, 9, 40)</div><div class="prop-desc">Vari stili: Modern, Vibrant, Sharp.</div><div class="price-box"><span class="old-p">$1.1M</span><span class="new-p">$550,000</span></div></div>
-                <div class="prop-card"><div class="prop-name">Tinsel Towers (Apt 42, 45)</div><div class="prop-desc">Rockford Hills Luxury.</div><div class="price-box"><span class="old-p">$491K</span><span class="new-p">$245,500</span></div></div>
-                <div class="prop-card"><div class="prop-name">Richard Majestic (Apt 4, 51)</div><div class="prop-desc">Vista sugli studi cinematografici.</div><div class="price-box"><span class="old-p">$484K</span><span class="new-p">$242,000</span></div></div>
-                <div class="prop-card"><div class="prop-name">Del Perro Heights (Apt 7, 20)</div><div class="prop-desc">Vicino alla spiaggia e Maze Bank West.</div><div class="price-box"><span class="old-p">$468K</span><span class="new-p">$234,000</span></div></div>
-                <div class="prop-card"><div class="prop-name">Weazel Plaza (Apt 26, 70, 101)</div><div class="prop-desc">Architettura iconica.</div><div class="price-box"><span class="old-p">$335K</span><span class="new-p">$167,500</span></div></div>
-                <div class="prop-card"><div class="prop-name">Alta St (Apt 10, 57)</div><div class="prop-desc">Centro città, massima efficienza.</div><div class="price-box"><span class="old-p">$223K</span><span class="new-p">$111,500</span></div></div>
-                <div class="prop-card"><div class="prop-name">Integrity Way (Apt 30, 35)</div><div class="prop-desc">A pochi passi dalla Maze Bank Tower.</div><div class="price-box"><span class="old-p">$476K</span><span class="new-p">$238,000</span></div></div>
-            </div>
-        </div>
-
-        <div class="category-block">
-            <h3 class="category-title"><span>Stilt Houses</span> <span>Vinewood Hills</span></h3>
-            <div class="prop-grid">
-                <div class="prop-card"><div class="prop-name">2862 Hillcrest Avenue</div><div class="prop-desc">Villa di lusso con piscina.</div><div class="price-box"><span class="old-p">$705K</span><span class="new-p">$352,500</span></div></div>
-                <div class="prop-card"><div class="prop-name">3655 Wild Oats Drive</div><div class="prop-desc">Design contemporaneo su palafitte.</div><div class="price-box"><span class="old-p">$800K</span><span class="new-p">$400,000</span></div></div>
-                <div class="prop-card"><div class="prop-name">2044 North Conker Ave</div><div class="prop-desc">Privacy totale nel verde.</div><div class="price-box"><span class="old-p">$762K</span><span class="new-p">$381,000</span></div></div>
-                <div class="prop-card"><div class="prop-name">3677 Milton Drive</div><div class="prop-desc">Eleganza classica a Vinewood.</div><div class="price-box"><span class="old-p">$503K</span><span class="new-p">$251,500</span></div></div>
-                <div class="prop-card"><div class="prop-name">2113 Mad Wayne Thunder</td><div class="prop-desc">Vista mozzafiato sul canyon.</div><div class="price-box"><span class="old-p">$449K</span><span class="new-p">$224,500</span></div></div>
-            </div>
-        </div>
-
-        <div class="category-block">
-            <h3 class="category-title"><span>Standard Apartments</span> <span>6-2 Posti Auto</span></h3>
-            <div class="prop-grid">
-                <div class="prop-card"><div class="prop-name">0605 Spanish Ave</div><div class="prop-desc">6 Posti - Ottima posizione media.</div><div class="price-box"><span class="old-p">$128K</span><span class="new-p">$64,000</span></div></div>
-                <div class="prop-card"><div class="prop-name">Cougar Ave, Apt 19</div><div class="prop-desc">6 Posti - Design funzionale.</div><div class="price-box"><span class="old-p">$112K</span><span class="new-p">$56,000</span></div></div>
-                <div class="prop-card"><div class="prop-name">Dream Tower, Apt 15</div><div class="prop-desc">Small - Ideale come base operativa.</div><div class="price-box"><span class="old-p">$134K</span><span class="new-p">$67,000</span></div></div>
-                <div class="prop-card"><div class="prop-name">Paleto Bay / Sandy Shores</div><div class="prop-desc">Case rurali e rifugi.</div><div class="price-box"><span class="old-p">$121K</span><span class="new-p">$60,500</span></div></div>
-            </div>
-        </div>
-
-        <div class="category-block">
-            <h3 class="category-title"><span>Executive Garages</span> <span>Solo Veicoli</span></h3>
-            <div class="prop-grid">
-                <div class="prop-card"><div class="prop-name">Popular St / Unit 2</div><div class="prop-desc">10 Posti - Area industriale.</div><div class="price-box"><span class="old-p">$142K</span><span class="new-p">$71,250</span></div></div>
-                <div class="prop-card"><div class="prop-name">Greenwich Parkway</div><div class="prop-desc">10 Posti - Zona Aeroporto.</div><div class="price-box"><span class="old-p">$120K</span><span class="new-p">$60,000</span></div></div>
-                <div class="prop-card"><div class="prop-name">Murrieta Heights</div><div class="prop-desc">10 Posti - East Los Santos.</div><div class="price-box"><span class="old-p">$150K</span><span class="new-p">$75,000</span></div></div>
-                <div class="prop-card"><div class="prop-name">Shambles St / Supply St</div><div class="prop-desc">6 Posti - Spazio compatto.</div><div class="price-box"><span class="old-p">$80K</span><span class="new-p">$40,000</span></div></div>
-            </div>
-        </div>
-
-    </div>
-
-    <div id="contact" class="tab-content">
-        <div class="contact-card">
-            <h2 style="color: var(--gold); text-align: center; margin-bottom: 30px;">Protocollo Maze Bank</h2>
-            <form id="dynastyForm">
-                <input type="text" id="fullName" placeholder="NOME E COGNOME" required>
-                <input type="text" id="phone" placeholder="CANALE RADIO / TELEFONO" required>
-                <input type="text" id="propName" placeholder="NOME PROPRIETÀ RICHIESTA" required>
-                <textarea id="details" rows="5" placeholder="Specifiche aggiuntive per il database..."></textarea>
-                <button type="submit" class="btn-gold">Registra Acquisizione</button>
-            </form>
+<div id="home" class="page active">
+    <header>
+        <div class="hq-tag">Maze Bank Tower • Floor 42</div>
+        <h1>DYNASTY LUXE</h1>
+    </header>
+    <div class="history-section">
+        <div class="history-card">
+            <h2 style="color: var(--gold); margin-bottom: 25px; font-family: 'Playfair Display';">La Nostra Eredità</h2>
+            <p>Fondata sulla vetta finanziaria di Los Santos, Dynasty Luxe non è solo un'agenzia immobiliare. È un sistema di gestione patrimoniale che garantisce persistenza, anonimato e un'efficienza senza pari.</p>
+            <br>
+            <p>Operiamo esclusivamente con database sincronizzati in tempo reale per assicurarci che ogni transazione al piano 42 sia registrata permanentemente nei nostri archivi sicuri.</p>
         </div>
     </div>
+</div>
 
+<div id="database" class="page">
+    <header>
+        <div class="hq-tag">Executive Asset Database</div>
+        <h2 style="font-family: 'Playfair Display'; color: var(--gold); font-size: 2.5rem; letter-spacing: 8px;">ARCHIVIO COMPLETO</h2>
+    </header>
+
+    <div class="accordion">
+        <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc(this)">
+                <h3>High-End & Stilt Houses (10 Slots)</h3>
+                <span>+</span>
+            </div>
+            <div class="acc-content">
+                <div class="prop-row"><div class="p-name">Eclipse Towers, Penthouse Suite 3</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$1,100,000</span>$550,000</div></div>
+                <div class="prop-row"><div class="p-name">Eclipse Towers, Penthouse Suite 1</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$985,000</span>$492,500</div></div>
+                <div class="prop-row"><div class="p-name">Eclipse Towers, Penthouse Suite 2</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$905,000</span>$452,500</div></div>
+                <div class="prop-row"><div class="p-name">3655 Wild Oats Drive</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$800,000</span>$400,000</div></div>
+                <div class="prop-row"><div class="p-name">2044 North Conker Avenue</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$762,000</span>$381,000</div></div>
+                <div class="prop-row"><div class="p-name">2045 North Conker Avenue</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$727,000</span>$363,500</div></div>
+                <div class="prop-row"><div class="p-name">2862 Hillcrest Avenue</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$705,000</span>$352,500</div></div>
+                <div class="prop-row"><div class="p-name">2868 Hillcrest Avenue</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$672,000</span>$336,000</div></div>
+                <div class="prop-row"><div class="p-name">2117 Milton Road</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$608,000</span>$304,000</div></div>
+                <div class="prop-row"><div class="p-name">2874 Hillcrest Avenue</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$571,000</span>$285,500</div></div>
+                <div class="prop-row"><div class="p-name">2866 Hillcrest Avenue</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$525,000</span>$262,500</div></div>
+                <div class="prop-row"><div class="p-name">Eclipse Towers, Apt. 3</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$500,000</span>$250,000</div></div>
+                <div class="prop-row"><div class="p-name">Tinsel Towers, Apt. 42</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$492,000</span>$246,000</div></div>
+                <div class="prop-row"><div class="p-name">Richards Majestic, Apt. 2</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$484,000</span>$242,000</div></div>
+                <div class="prop-row"><div class="p-name">3677 Whispymound Drive</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$478,000</span>$239,000</div></div>
+                <div class="prop-row"><div class="p-name">4 Integrity Way, Apt. 28</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$476,000</span>$238,000</div></div>
+                <div class="prop-row"><div class="p-name">Del Perro Heights, Apt. 4</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$468,000</span>$234,000</div></div>
+                <div class="prop-row"><div class="p-name">2113 Mad Wayne Thunder Drive</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$449,000</span>$224,500</div></div>
+                <div class="prop-row"><div class="p-name">Eclipse Towers, Apt. 31</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$400,000</span>$200,000</div></div>
+                <div class="prop-row"><div class="p-name">Eclipse Towers, Apt. 40</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$391,000</span>$195,500</div></div>
+                <div class="prop-row"><div class="p-name">Eclipse Towers, Apt. 5</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$382,000</span>$191,000</div></div>
+                <div class="prop-row"><div class="p-name">Eclipse Towers, Apt. 9</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$373,000</span>$186,500</div></div>
+                <div class="prop-row"><div class="p-name">Weazel Plaza, Apt. 101</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$335,000</span>$167,500</div></div>
+                <div class="prop-row"><div class="p-name">Weazel Plaza, Apt. 70</div><div class="p-slots">10 Veicoli</div><div class="p-price"><span class="price-orig">$319,000</span>$159,500</div></div>
+            </div>
+        </div>
+
+        <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc(this)">
+                <h3>Standard Apartments (6 Slots)</h3>
+                <span>+</span>
+            </div>
+            <div class="acc-content">
+                <div class="prop-row"><div class="p-name">0115 Bay City Avenue, Apt. 45</div><div class="p-slots">6 Veicoli</div><div class="p-price"><span class="price-orig">$150,000</span>$75,000</div></div>
+                <div class="prop-row"><div class="p-name">0184 Milton Road, Apt. 13</div><div class="p-slots">6 Veicoli</div><div class="p-price"><span class="price-orig">$146,000</span>$73,000</div></div>
+                <div class="prop-row"><div class="p-name">12 Sustancia Road</div><div class="p-slots">6 Veicoli</div><div class="p-price"><span class="price-orig">$143,000</span>$71,500</div></div>
+                <div class="prop-row"><div class="p-name">0504 South Mo Milton Drive</div><div class="p-slots">6 Veicoli</div><div class="p-price"><span class="price-orig">$141,000</span>$70,500</div></div>
+                <div class="prop-row"><div class="p-name">0325 South Rockford Drive</div><div class="p-slots">6 Veicoli</div><div class="p-price"><span class="price-orig">$137,000</span>$68,500</div></div>
+                <div class="prop-row"><div class="p-name">Dream Tower, Apt. 15</div><div class="p-slots">6 Veicoli</div><div class="p-price"><span class="price-orig">$134,000</span>$67,000</div></div>
+                <div class="prop-row"><div class="p-name">1162 Power Street, Apt. 3</div><div class="p-slots">6 Veicoli</div><div class="p-price"><span class="price-orig">$130,000</span>$65,000</div></div>
+                <div class="prop-row"><div class="p-name">0605 Spanish Avenue, Apt. 1</div><div class="p-slots">6 Veicoli</div><div class="p-price"><span class="price-orig">$128,000</span>$64,000</div></div>
+                <div class="prop-row"><div class="p-name">0604 Las Lagunas Boulevard, Apt. 4</div><div class="p-slots">6 Veicoli</div><div class="p-price"><span class="price-orig">$126,000</span>$63,000</div></div>
+                <div class="prop-row"><div class="p-name">The Royale, Apt. 19</div><div class="p-slots">6 Veicoli</div><div class="p-price"><span class="price-orig">$125,000</span>$62,500</div></div>
+            </div>
+        </div>
+
+        <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc(this)">
+                <h3>Low-End Housing (2 Slots)</h3>
+                <span>+</span>
+            </div>
+            <div class="acc-content">
+                <div class="prop-row"><div class="p-name">0232 Paleto Boulevard</div><div class="p-slots">2 Veicoli</div><div class="p-price"><span class="price-orig">$121,000</span>$60,500</div></div>
+                <div class="prop-row"><div class="p-name">140 Zancudo Avenue</div><div class="p-slots">2 Veicoli</div><div class="p-price"><span class="price-orig">$120,000</span>$60,000</div></div>
+                <div class="prop-row"><div class="p-name">1893 Grapeseed Avenue</div><div class="p-slots">2 Veicoli</div><div class="p-price"><span class="price-orig">$118,000</span>$59,000</div></div>
+                <div class="prop-row"><div class="p-name">2143 Las Lagunas Boulevard, Apt. 9</div><div class="p-slots">2 Veicoli</div><div class="p-price"><span class="price-orig">$115,000</span>$57,500</div></div>
+                <div class="prop-row"><div class="p-name">0069 Cougar Avenue, Apt. 19</div><div class="p-slots">2 Veicoli</div><div class="p-price"><span class="price-orig">$112,000</span>$56,000</div></div>
+                <div class="prop-row"><div class="p-name">1237 Prosperity Street, Apt. 21</div><div class="p-slots">2 Veicoli</div><div class="p-price"><span class="price-orig">$105,000</span>$52,500</div></div>
+                <div class="prop-row"><div class="p-name">1561 San Vitas Street, Apt. 2</div><div class="p-slots">2 Veicoli</div><div class="p-price"><span class="price-orig">$99,000</span>$49,500</div></div>
+                <div class="prop-row"><div class="p-name">1115 Boulevard Del Perro, Apt. 18</div><div class="p-slots">2 Veicoli</div><div class="p-price"><span class="price-orig">$93,000</span>$46,500</div></div>
+                <div class="prop-row"><div class="p-name">2057 Vespucci Boulevard, Apt. 1</div><div class="p-slots">2 Veicoli</div><div class="p-price"><span class="price-orig">$87,000</span>$43,500</div></div>
+                <div class="prop-row"><div class="p-name">0112 South Rockford Drive, Apt. 13</div><div class="p-slots">2 Veicoli</div><div class="p-price"><span class="price-orig">$80,000</span>$40,000</div></div>
+            </div>
+        </div>
+
+        <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc(this)">
+                <h3>Standalone Garages (Dynasty 8)</h3>
+                <span>+</span>
+            </div>
+            <div class="acc-content">
+                <div style="padding: 15px 25px; font-size: 0.7rem; color: var(--gold); background: rgba(0,0,0,0.3);">ESTENSIONE: GARAGE 2 POSTI</div>
+                <div class="prop-row"><div class="p-name">0897 Mirror Park Boulevard</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$35,000</span>$17,500</div></div>
+                <div class="prop-row"><div class="p-name">Garage Innocence Boulevard</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$34,000</span>$17,000</div></div>
+                <div class="prop-row"><div class="p-name">634 Boulevard Del Perro</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$33,500</span>$16,750</div></div>
+                <div class="prop-row"><div class="p-name">1920 Senora Way</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$32,000</span>$16,000</div></div>
+                <div class="prop-row"><div class="p-name">12 Little Bighorn Avenue</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$32,000</span>$16,000</div></div>
+                <div class="prop-row"><div class="p-name">2000 Great Ocean Highway</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$31,500</span>$15,750</div></div>
+                <div class="prop-row"><div class="p-name">0754 Roy Lowenstein Boulevard</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$29,500</span>$14,750</div></div>
+                <div class="prop-row"><div class="p-name">197 Route 68</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$29,000</span>$14,500</div></div>
+                <div class="prop-row"><div class="p-name">1200 Route 68</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$28,000</span>$14,000</div></div>
+                <div class="prop-row"><div class="p-name">1932 Grapeseed Avenue</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$27,500</span>$13,750</div></div>
+                <div class="prop-row"><div class="p-name">142 Paleto Boulevard</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$26,500</span>$13,250</div></div>
+                
+                <div style="padding: 15px 25px; font-size: 0.7rem; color: var(--gold); background: rgba(0,0,0,0.3);">ESTENSIONE: GARAGE 6 POSTI</div>
+                <div class="prop-row"><div class="p-name">870 Route 68 Approach</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$62,500</span>$31,250</div></div>
+                <div class="prop-row"><div class="p-name">0552 Roy Lowenstein Boulevard</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$80,000</span>$40,000</div></div>
+                <div class="prop-row"><div class="p-name">Unit 14 Popular Street</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$77,500</span>$38,750</div></div>
+                <div class="prop-row"><div class="p-name">1905 Davis Avenue</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$75,000</span>$37,500</div></div>
+                <div class="prop-row"><div class="p-name">0432 Davis Avenue</div><div class="p-slots">Garage</div><div class="p-price"><span class="price-orig">$72,500</span>$36,250</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="contact" class="page">
+    <header>
+        <div class="hq-tag">Maze Bank Protocol</div>
+        <h2 style="font-family: 'Playfair Display'; color: var(--gold); font-size: 2.5rem; letter-spacing: 8px;">REGISTRAZIONE</h2>
+    </header>
+    <div class="contact-form">
+        <form id="dynastyForm">
+            <input type="text" id="fullName" placeholder="NOME E COGNOME CLIENTE" required>
+            <input type="text" id="phone" placeholder="CANALE RADIO / TEL" required>
+            <input type="text" id="propName" placeholder="NOME IMMOBILE (COPIA DAL DATABASE)" required>
+            <textarea id="notes" rows="4" placeholder="SPECIFICHE AGGIUNTIVE PER IL DATABASE..."></textarea>
+            <button type="submit" class="btn-gold">Protocolla Richiesta</button>
+        </form>
+    </div>
 </div>
 
 <footer>
-    DYNASTY LUXE | MAZE BANK TOWER | 2026<br>
-    DATABASE PERSISTENTE ATTIVO - TUTTI I DIRITTI RISERVATI
+    <span class="status-dot">●</span> DATABASE JSON PERSISTENTE OPERATIVO | 2026<br>
+    DYNASTY LUXE | MAZE BANK TOWER LS | PIANO 42
 </footer>
 
 <script>
-    function openTab(evt, tabName) {
-        var i, tabContent, tabLinks;
-        tabContent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabContent.length; i++) tabContent[i].style.display = "none";
-        tabLinks = document.getElementsByClassName("tab-link");
-        for (i = 0; i < tabLinks.length; i++) tabLinks[i].classList.remove("active");
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.classList.add("active");
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+        
+        document.getElementById(pageId).classList.add('active');
+        document.getElementById('nav-' + pageId).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function toggleAcc(header) {
+        const item = header.parentElement;
+        item.classList.toggle('open');
+        const icon = header.querySelector('span');
+        icon.innerText = item.classList.contains('open') ? '-' : '+';
     }
 
     const webHook = "https://discord.com/api/webhooks/1461871182134513944/zQKNdeVOQXqjYmy9IJ9J7RNdrGamg3-WUF_n3TDkxuBbnNYoQQEMNOaQ6vRqkIpUyQfN";
@@ -182,19 +263,23 @@
         e.preventDefault();
         const payload = {
             embeds: [{
-                title: "🏢 NUOVA ACQUISIZIONE REGISTRATA",
+                title: "💎 NUOVA RICHIESTA REGISTRATA - PIANO 42",
                 color: 12951641,
                 fields: [
                     { name: "👤 Cliente", value: document.getElementById('fullName').value, inline: true },
                     { name: "📞 Contatto", value: document.getElementById('phone').value, inline: true },
-                    { name: "🏢 Proprietà", value: document.getElementById('propName').value, inline: false },
-                    { name: "📝 Note", value: document.getElementById('details').value || "N/A" }
+                    { name: "🏠 Immobile", value: document.getElementById('propName').value, inline: false },
+                    { name: "📝 Note", value: document.getElementById('notes').value || "N/A" }
                 ],
-                footer: { text: "Ufficio Maze Bank Tower | Sessione Salvata" }
+                footer: { text: "Ufficio Maze Bank Tower | Sistema Persistente" },
+                timestamp: new Date()
             }]
         };
         fetch(webHook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-        .then(() => { alert('Protocollo salvato con successo.'); document.getElementById('dynastyForm').reset(); });
+        .then(() => {
+            alert('Pratica archiviata con successo nel database Maze Bank.');
+            document.getElementById('dynastyForm').reset();
+        });
     });
 </script>
 
