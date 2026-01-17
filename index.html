@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynasty Luxe | Real Estate Prestige</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@200;300;500&display=swap" rel="stylesheet">
+    <title>Dynasty Luxe | Maze Bank Headquarters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@200;300;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #c5a059;
@@ -12,7 +12,7 @@
             --card-bg: #0f0f0f;
             --text-light: #f4f4f4;
             --border: #1a1a1a;
-            --gold-gradient: linear-gradient(45deg, #c5a059, #f9e2af, #c5a059);
+            --gold-soft: rgba(197, 160, 89, 0.2);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,304 +21,259 @@
             color: var(--text-light); 
             font-family: 'Montserrat', sans-serif; 
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
-        /* Header con parallasse simulato */
-        header {
-            height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        /* Navigazione */
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(5, 5, 5, 0.98);
             border-bottom: 1px solid var(--gold);
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            padding: 15px 0;
+            display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+        }
+
+        nav button {
+            background: none; border: 1px solid transparent;
+            color: var(--text-light); padding: 8px 16px;
+            cursor: pointer; text-transform: uppercase;
+            font-size: 0.7rem; letter-spacing: 2px; transition: 0.3s;
+        }
+
+        nav button.active { border-color: var(--gold); color: var(--gold); }
+
+        /* Hero Section */
+        header {
+            height: 50vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9));
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hq-badge {
+            font-size: 0.65rem; color: var(--gold);
+            border: 1px solid var(--gold); padding: 5px 15px;
+            margin-bottom: 20px; letter-spacing: 5px; text-transform: uppercase;
         }
 
         h1 { 
-            font-family: 'Playfair Display', serif; 
-            font-size: clamp(2.5rem, 8vw, 4.5rem); 
-            color: var(--gold); 
-            letter-spacing: 15px; 
-            text-align: center;
-            text-transform: uppercase;
+            font-family: 'Playfair Display', serif; font-size: 3.5rem; 
+            color: var(--gold); letter-spacing: 15px; text-transform: uppercase;
         }
 
-        .promo-tag { 
-            border: 1px solid var(--gold); 
-            padding: 10px 30px; 
-            margin-top: 25px; 
-            letter-spacing: 4px; 
-            font-size: 0.8rem; 
-            color: var(--gold);
-            text-transform: uppercase;
-            animation: fadeIn 2s ease;
-        }
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; min-height: 60vh; }
 
-        .container { max-width: 1400px; margin: 60px auto; padding: 0 30px; }
-        
-        /* Navigazione Categorie */
-        .section-nav { 
-            display: flex; 
-            justify-content: center; 
-            flex-wrap: wrap;
-            gap: 20px 40px; 
-            margin-bottom: 80px; 
-            font-size: 0.75rem; 
-            letter-spacing: 3px; 
-            text-transform: uppercase;
+        /* Search Bar */
+        .search-container { margin-bottom: 40px; }
+        #propSearch {
+            width: 100%; background: var(--card-bg); border: 1px solid var(--border);
+            padding: 15px; color: var(--gold); font-family: inherit; outline: none;
+            border-radius: 4px; transition: 0.3s;
         }
-        .section-nav a { 
-            color: var(--text-light); 
-            text-decoration: none; 
-            transition: 0.3s;
-            opacity: 0.6;
-        }
-        .section-nav a:hover { opacity: 1; color: var(--gold); }
+        #propSearch:focus { border-color: var(--gold); }
 
-        h2.cat-title { 
-            font-family: 'Playfair Display', serif; 
-            font-size: 2.2rem; 
-            color: var(--gold); 
-            margin: 100px 0 40px; 
-            border-left: 3px solid var(--gold); 
-            padding-left: 20px; 
-            letter-spacing: 2px;
-        }
+        /* SPA Tabs */
+        .tab-content { display: none; animation: fadeIn 0.4s ease forwards; }
+        .tab-content.active { display: block; }
 
-        /* Card Design Migliorato */
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-            gap: 30px; 
+        /* Accordion */
+        .accordion-item {
+            background: var(--card-bg); border: 1px solid var(--border);
+            margin-bottom: 15px; transition: 0.3s;
         }
+        .accordion-header {
+            padding: 25px; cursor: pointer; display: flex;
+            justify-content: space-between; align-items: center;
+            text-transform: uppercase; font-weight: 500; letter-spacing: 1px;
+        }
+        .accordion-header:hover { background: #111; }
+        .accordion-body {
+            max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+            background: #080808; padding: 0 25px;
+        }
+        .active-acc .accordion-body { max-height: 500px; padding: 25px; border-top: 1px solid var(--border); }
+        .active-acc { border-color: var(--gold); }
 
-        .card { 
-            background: var(--card-bg); 
-            border: 1px solid var(--border); 
-            transition: 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-            overflow: hidden;
-            position: relative;
-        }
-        .card:hover { 
-            border-color: var(--gold); 
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-        
-        .img-container {
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-        }
+        .price-tag { margin-top: 15px; display: flex; gap: 15px; align-items: center; }
+        .new-p { color: var(--gold); font-size: 1.4rem; font-weight: 700; }
+        .old-p { text-decoration: line-through; color: #444; }
 
-        .card-img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            filter: brightness(0.6) grayscale(30%); 
-            transition: 0.6s; 
+        /* Footer & Form */
+        .contact-card { background: var(--card-bg); padding: 40px; border: 1px solid var(--gold); }
+        input, textarea { 
+            width: 100%; background: #000; border: 1px solid var(--border); 
+            padding: 15px; color: #fff; margin-bottom: 15px; font-family: inherit;
         }
-        .card:hover .card-img { 
-            filter: brightness(1) grayscale(0%);
-            transform: scale(1.1);
+        .btn-gold { 
+            width: 100%; background: var(--gold); color: #000; border: none;
+            padding: 20px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 3px; cursor: pointer; transition: 0.3s;
         }
-        
-        .card-content { padding: 25px; border-top: 1px solid var(--border); }
-        .card-name { font-weight: 500; font-size: 0.95rem; margin-bottom: 12px; letter-spacing: 1px; color: #fff; }
-        
-        .price-wrap { display: flex; align-items: baseline; gap: 15px; }
-        .old-p { text-decoration: line-through; color: #555; font-size: 0.85rem; }
-        .new-p { color: var(--gold); font-weight: bold; font-size: 1.2rem; letter-spacing: 1px; }
+        .btn-gold:hover { background: #fff; }
 
-        /* Form Professionale */
-        .booking-area { 
-            background: #080808; 
-            padding: 120px 0; 
-            border-top: 1px solid var(--border); 
-            margin-top: 100px;
-        }
-        .form-box { max-width: 650px; margin: 0 auto; padding: 0 20px; }
-        .form-box h2 {
-            font-family: 'Playfair Display', serif;
-            color: var(--gold);
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-        }
-
-        .form-box input, .form-box select, .form-box textarea { 
-            width: 100%; 
-            background: #0a0a0a; 
-            border: 1px solid var(--border); 
-            padding: 20px; 
-            color: white; 
-            margin-bottom: 25px; 
-            font-family: inherit;
-            transition: 0.3s;
-        }
-        .form-box input:focus, .form-box select:focus { border-color: var(--gold); outline: none; background: #111; }
-        
-        .btn-submit { 
-            width: 100%; 
-            background: var(--gold); 
-            color: black; 
-            border: none; 
-            padding: 22px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            letter-spacing: 4px; 
-            text-transform: uppercase; 
-            transition: 0.4s;
-        }
-        .btn-submit:hover { 
-            background: white; 
-            letter-spacing: 6px;
-        }
-
-        footer { 
-            text-align: center; 
-            padding: 100px; 
-            color: #444; 
-            font-size: 0.7rem; 
-            letter-spacing: 4px; 
-            text-transform: uppercase;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        footer { text-align: center; padding: 40px; color: #333; font-size: 0.7rem; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
+<nav>
+    <button class="tab-link active" onclick="openTab(event, 'about')">La Storia</button>
+    <button class="tab-link" onclick="openTab(event, 'listing')">Proprietà</button>
+    <button class="tab-link" onclick="openTab(event, 'services')">Servizi</button>
+    <button class="tab-link" onclick="openTab(event, 'contact')">Acquisizione</button>
+</nav>
+
 <header>
+    <div class="hq-badge">Headquarters: Maze Bank Tower, Floor 42</div>
     <h1>DYNASTY LUXE</h1>
-    <div class="promo-tag">Residential Portfolio | Exclusive -50% Off</div>
+    <p style="letter-spacing: 8px; font-size: 0.7rem; color: #666; margin-top: 10px;">L'ECCELLENZA IMMOBILIARE A LOS SANTOS</p>
 </header>
 
 <div class="container">
-    <div class="section-nav">
-        <a href="#high">High-End & Penthouse</a>
-        <a href="#stilt">Vinewood Stilt Houses</a>
-        <a href="#mid">Residential Mid-Range</a>
-        <a href="#garages">Garage & Showrooms</a>
-    </div>
 
-    <h2 id="high" class="cat-title">Appartamenti High-End & Penthouse</h2>
-    <div class="grid">
-        <div class="card">
-            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/eclipse-towers.jpg" class="card-img"></div>
-            <div class="card-content">
-                <div class="card-name">Eclipse Towers (Tutte le Suite)</div>
-                <div class="price-wrap"><span class="old-p">$1,100,000</span><span class="new-p">$550,000</span></div>
+    <div id="about" class="tab-content active">
+        <h2 style="color: var(--gold); font-family: 'Playfair Display'; margin-bottom: 30px;">Una Tradizione di Prestigio</h2>
+        <div class="accordion-item active-acc">
+            <div class="accordion-header">Le Origini</div>
+            <div class="accordion-body">
+                <p>Fondata nel 2013, Dynasty Luxe ha ridefinito il concetto di "vivere bene" a Los Santos. Nata da una costola di Dynasty 8, la nostra divisione Luxe si occupa esclusivamente del mercato di fascia alta, garantendo anonimato e transazioni sicure per l'élite della città.</p>
             </div>
         </div>
-        <div class="card">
-            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/tinsel-towers.jpg" class="card-img"></div>
-            <div class="card-content">
-                <div class="card-name">Tinsel Towers (Apt 42, 45, 29)</div>
-                <div class="price-wrap"><span class="old-p">$491,000</span><span class="new-p">$245,500</span></div>
+        <div class="accordion-item">
+            <div class="accordion-header">Maze Bank Tower: Il Nostro Cuore</div>
+            <div class="accordion-body">
+                <p>Operiamo dal piano 42 della Maze Bank Tower. Questa sede non è solo un ufficio, ma un simbolo di potere ed efficienza. Da qui, i nostri consulenti monitorano ogni singolo metro quadrato della contea per scovare opportunità uniche prima che arrivino sul mercato pubblico.</p>
             </div>
         </div>
-        <div class="card">
-            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/del-perro-heights.jpg" class="card-img"></div>
-            <div class="card-content">
-                <div class="card-name">Del Perro Heights (Apt 7, 20)</div>
-                <div class="price-wrap"><span class="old-p">$468,000</span><span class="new-p">$234,000</span></div>
+        <div class="accordion-item">
+            <div class="accordion-header">La Nostra Filosofia</div>
+            <div class="accordion-body">
+                <p>Efficienza. Design. Persistenza. Ogni transazione viene registrata nei nostri database persistenti per garantire che il vostro investimento sia protetto nel tempo, indipendentemente dalle fluttuazioni della borsa di Los Santos.</p>
             </div>
         </div>
     </div>
 
-    <h2 id="stilt" class="cat-title">Stilt Houses (Vinewood Hills)</h2>
-    <div class="grid">
-        <div class="card">
-            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/3655-wild-oats-drive.jpg" class="card-img"></div>
-            <div class="card-content">
-                <div class="card-name">3655 Wild Oats Drive</div>
-                <div class="price-wrap"><span class="old-p">$800,000</span><span class="new-p">$400,000</span></div>
-            </div>
+    <div id="listing" class="tab-content">
+        <div class="search-container">
+            <input type="text" id="propSearch" placeholder="Cerca immobile (es. Eclipse, Wild Oats, Garage...)" onkeyup="searchProp()">
         </div>
-        <div class="card">
-            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/2862-hillcrest-avenue.jpg" class="card-img"></div>
-            <div class="card-content">
-                <div class="card-name">2862 Hillcrest Avenue</div>
-                <div class="price-wrap"><span class="old-p">$705,000</span><span class="new-p">$352,500</span></div>
+        
+        <div id="propList">
+            <div class="accordion-item" data-name="Eclipse Towers Suite 31">
+                <div class="accordion-header">Eclipse Towers, Suite 31</div>
+                <div class="accordion-body">
+                    <p>Interni moderni, garage privato e la vista più alta della città.</p>
+                    <div class="price-tag"><span class="old-p">$1,100,000</span><span class="new-p">$550,000</span></div>
+                </div>
+            </div>
+            <div class="accordion-item" data-name="3655 Wild Oats Drive Stilt House">
+                <div class="accordion-header">3655 Wild Oats Drive</div>
+                <div class="accordion-body">
+                    <p>Villa architettonica sulle colline di Vinewood. Piscina a sfioro e design in vetro.</p>
+                    <div class="price-tag"><span class="old-p">$800,000</span><span class="new-p">$400,000</span></div>
+                </div>
+            </div>
+            <div class="accordion-item" data-name="Unit 2 Popular St Garage">
+                <div class="accordion-header">Unit 2 Popular St (10 Posti)</div>
+                <div class="accordion-body">
+                    <p>Spazio industriale ottimizzato per collezionisti di auto d'epoca o supercar.</p>
+                    <div class="price-tag"><span class="old-p">$142,500</span><span class="new-p">$71,250</span></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <h2 id="garages" class="cat-title">Garage & Showroom</h2>
-    <div class="grid">
-        <div class="card">
-            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/garages/eclipse-boulevard-garage.jpg" class="card-img"></div>
-            <div class="card-content">
-                <div class="card-name">Eclipse Blvd (50 Posti Auto)</div>
-                <div class="price-wrap"><span class="old-p">$2,740,000</span><span class="new-p">$1,370,000</span></div>
+    <div id="services" class="tab-content">
+        <h2 style="color: var(--gold); font-family: 'Playfair Display'; margin-bottom: 30px;">Oltre le Mura</h2>
+        <div class="accordion-item">
+            <div class="accordion-header">Interior Design Personalizzato</div>
+            <div class="accordion-body">
+                <p>Collaboriamo con i migliori architetti per personalizzare il tuo appartamento high-end. Scegli tra stili Modern, Noir, o Vibrant.</p>
             </div>
         </div>
-        <div class="card">
-            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/garages/unit-2-popular-st.jpg" class="card-img"></div>
-            <div class="card-content">
-                <div class="card-name">Unit 2 Popular St (10 Posti)</div>
-                <div class="price-wrap"><span class="old-p">$142,500</span><span class="new-p">$71,250</span></div>
+        <div class="accordion-item">
+            <div class="accordion-header">Protezione Asset</div>
+            <div class="accordion-body">
+                <p>Ogni acquisto include una consulenza sulla sicurezza per proteggere i tuoi veicoli e le tue proprietà da intrusioni non autorizzate.</p>
             </div>
         </div>
     </div>
-</div>
 
-<div class="booking-area">
-    <div class="form-box">
-        <h2>Private Consultation</h2>
-        <form id="dynastyForm">
-            <input type="text" id="fullName" placeholder="NOME COMPLETO" required>
-            <input type="text" id="phone" placeholder="NUMERO DI TELEFONO" required>
-            <input type="text" id="propName" placeholder="NOME IMMOBILE (es. Eclipse Suite 31)" required>
-            <textarea id="details" rows="4" placeholder="NOTE AGGIUNTIVE (Esempio: orario per il tour dell'immobile)"></textarea>
-            <button type="submit" class="btn-submit">Invia Richiesta Acquisizione</button>
-        </form>
+    <div id="contact" class="tab-content">
+        <div class="contact-card">
+            <h2 style="color: var(--gold); text-align: center; margin-bottom: 25px;">Richiesta Formale</h2>
+            <form id="dynastyForm">
+                <input type="text" id="fullName" placeholder="NOME E COGNOME" required>
+                <input type="text" id="phone" placeholder="RECAPITO TELEFONICO" required>
+                <input type="text" id="propName" placeholder="OGGETTO DELL'ACQUISIZIONE" required>
+                <textarea id="details" rows="4" placeholder="SPECIFICHE O DOMANDE PER IL TEAM MAZE BANK"></textarea>
+                <button type="submit" class="btn-gold">Protocolla Richiesta</button>
+            </form>
+        </div>
     </div>
+
 </div>
 
 <footer>
-    Dynasty Luxe Real Estate &copy; 2026 | Los Santos Prestige | Efficient & Persistent
+    DYNASTY LUXE | MAZE BANK TOWER, LS | 2026<br>
+    Sistemi Persistent Database Attivi
 </footer>
 
 <script>
+    // Tab System
+    function openTab(evt, tabName) {
+        var i, tabContent, tabLinks;
+        tabContent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabContent.length; i++) tabContent[i].style.display = "none";
+        tabLinks = document.getElementsByClassName("tab-link");
+        for (i = 0; i < tabLinks.length; i++) tabLinks[i].classList.remove("active");
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.classList.add("active");
+    }
+
+    // Accordion System
+    document.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const item = header.parentElement;
+            item.classList.toggle('active-acc');
+        });
+    });
+
+    // Search Engine
+    function searchProp() {
+        let input = document.getElementById('propSearch').value.toLowerCase();
+        let items = document.querySelectorAll('#propList .accordion-item');
+        items.forEach(item => {
+            let text = item.getAttribute('data-name').toLowerCase();
+            item.style.display = text.includes(input) ? "block" : "none";
+        });
+    }
+
+    // Discord Webhook
     const webHook = "https://discord.com/api/webhooks/1461871182134513944/zQKNdeVOQXqjYmy9IJ9J7RNdrGamg3-WUF_n3TDkxuBbnNYoQQEMNOaQ6vRqkIpUyQfN";
 
     document.getElementById('dynastyForm').addEventListener('submit', function(e) {
         e.preventDefault();
-
         const payload = {
             embeds: [{
-                title: "💎 NUOVA ACQUISIZIONE - DYNASTY LUXE",
+                title: "🏢 NUOVO PROTOCOLLO MAZE BANK - ACQUISIZIONE",
                 color: 12951641,
                 fields: [
                     { name: "👤 Cliente", value: document.getElementById('fullName').value, inline: true },
                     { name: "📞 Telefono", value: document.getElementById('phone').value, inline: true },
-                    { name: "🏢 Immobile Scelto", value: document.getElementById('propName').value, inline: false },
-                    { name: "📝 Note", value: document.getElementById('details').value || "Nessuna specifica" }
+                    { name: "🏢 Oggetto", value: document.getElementById('propName').value, inline: false },
+                    { name: "📝 Note", value: document.getElementById('details').value || "N/A" }
                 ],
-                footer: { text: "Database Persistent | 2026" },
+                footer: { text: "Ufficio Maze Bank Tower | Session Persistent" },
                 timestamp: new Date()
             }]
         };
 
-        fetch(webHook, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        }).then(() => {
-            alert('Grazie per aver scelto Dynasty Luxe. La tua richiesta è stata registrata nei nostri sistemi.');
+        fetch(webHook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        .then(() => {
+            alert('Protocollo registrato. Un consulente della Maze Bank Tower ti contatterà presto.');
             document.getElementById('dynastyForm').reset();
-        }).catch(err => {
-            alert('Errore di connessione al database.');
-            console.error(err);
         });
     });
 </script>
