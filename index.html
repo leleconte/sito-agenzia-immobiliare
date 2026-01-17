@@ -24,58 +24,73 @@
             background-size: cover; background-position: center; z-index: -1;
         }
 
+        /* Navigazione Responsive */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
-            background: rgba(0, 0, 0, 0.9); border-bottom: 1px solid var(--gold);
-            padding: 20px 0; display: flex; justify-content: center; gap: 40px;
+            background: rgba(0, 0, 0, 0.95); border-bottom: 1px solid var(--gold);
+            padding: 15px 0; display: flex; justify-content: center; gap: 20px;
             backdrop-filter: blur(10px);
         }
         nav a { 
             color: var(--text); text-decoration: none; text-transform: uppercase; 
-            font-size: 0.75rem; letter-spacing: 4px; cursor: pointer; transition: 0.3s; opacity: 0.5;
+            font-size: 0.65rem; letter-spacing: 2px; cursor: pointer; transition: 0.3s; opacity: 0.5;
+            text-align: center;
         }
         nav a.active { opacity: 1; color: var(--gold); font-weight: 600; }
 
-        .page { display: none; padding: 120px 20px 60px; min-height: 100vh; animation: fadeIn 0.6s ease-out; }
+        .page { display: none; padding: 100px 15px 60px; min-height: 100vh; animation: fadeIn 0.6s ease-out; }
         .page.active { display: block; }
 
-        header { text-align: center; margin-bottom: 60px; }
-        .hq-tag { font-size: 0.6rem; letter-spacing: 6px; color: var(--gold); text-transform: uppercase; margin-bottom: 15px; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--gold); letter-spacing: 12px; }
+        header { text-align: center; margin-bottom: 40px; padding: 0 10px; }
+        .hq-tag { font-size: 0.55rem; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--gold); letter-spacing: 6px; line-height: 1.2; }
 
+        /* Accordion & Database */
         .accordion { max-width: 1000px; margin: 0 auto; }
         .acc-item { background: var(--card); border: 1px solid var(--border); margin-bottom: 10px; }
         .acc-header { 
-            padding: 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
             background: rgba(197, 160, 89, 0.03); 
         }
-        .acc-header:hover { background: rgba(197, 160, 89, 0.08); }
-        .acc-header h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); }
+        .acc-header h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); padding-right: 10px; }
         
         .acc-content { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0, 1, 0, 1); }
-        .acc-item.open .acc-content { max-height: 5000px; transition: max-height 0.8s ease-in; }
+        .acc-item.open .acc-content { max-height: 6000px; transition: max-height 0.8s ease-in; }
 
+        /* Riga Proprietà ottimizzata per Mobile */
         .prop-row { 
-            display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 18px 25px;
-            border-top: 1px solid rgba(255,255,255,0.03); align-items: center; transition: 0.2s;
+            display: grid; 
+            grid-template-columns: 1.5fr 1fr; /* Default mobile: Nome e Prezzo */
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255,255,255,0.05); align-items: center; gap: 10px;
         }
-        .prop-row:hover { background: rgba(197, 160, 89, 0.05); }
-        .p-name { font-size: 0.8rem; font-weight: 500; }
-        .p-slots { font-size: 0.65rem; color: #666; text-transform: uppercase; }
-        .p-price { text-align: right; font-weight: 600; color: var(--gold); }
-        .price-orig { font-size: 0.7rem; text-decoration: line-through; color: #444; margin-right: 10px; font-weight: 400; }
+        .p-name { font-size: 0.75rem; font-weight: 500; grid-column: span 2; color: #fff; } /* Nome a tutta larghezza su mobile */
+        .p-slots { font-size: 0.6rem; color: #777; text-transform: uppercase; }
+        .p-price { text-align: right; font-weight: 600; color: var(--gold); font-size: 0.85rem; }
+        .price-orig { font-size: 0.65rem; text-decoration: line-through; color: #555; margin-right: 5px; font-weight: 400; }
 
-        .contact-form { max-width: 600px; margin: 0 auto; background: var(--card); border: 1px solid var(--gold); padding: 50px; }
-        .form-desc { text-align: center; font-size: 0.8rem; color: #888; margin-bottom: 30px; letter-spacing: 1px; }
-        input, textarea { width: 100%; background: #000; border: 1px solid #222; padding: 18px; color: #fff; margin-bottom: 20px; font-family: inherit; }
-        input:focus, textarea:focus { border-color: var(--gold); outline: none; }
-        .btn-gold { width: 100%; padding: 22px; background: var(--gold); border: none; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 4px; transition: 0.3s; }
-        .btn-gold:hover { background: #fff; letter-spacing: 6px; }
+        /* Form */
+        .contact-form { max-width: 600px; margin: 0 auto; background: var(--card); border: 1px solid var(--gold); padding: 30px 20px; }
+        .form-desc { text-align: center; font-size: 0.75rem; color: #888; margin-bottom: 25px; line-height: 1.5; }
+        input, textarea { width: 100%; background: #000; border: 1px solid #222; padding: 15px; color: #fff; margin-bottom: 15px; font-family: inherit; font-size: 0.85rem; border-radius: 0; }
+        .btn-gold { width: 100%; padding: 20px; background: var(--gold); border: none; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; font-size: 0.8rem; }
+
+        /* Tablet & Desktop Adjustments */
+        @media (min-width: 768px) {
+            nav { gap: 40px; padding: 20px 0; }
+            nav a { font-size: 0.75rem; letter-spacing: 4px; }
+            h1 { font-size: 3.5rem; letter-spacing: 12px; }
+            .hq-tag { font-size: 0.6rem; letter-spacing: 6px; }
+            .prop-row { grid-template-columns: 2fr 1fr 1fr; } /* Torna a 3 colonne su desktop */
+            .p-name { grid-column: span 1; font-size: 0.8rem; }
+            .contact-form { padding: 50px; }
+            .acc-header h3 { font-size: 0.85rem; letter-spacing: 3px; }
+        }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        footer { text-align: center; padding: 50px; font-size: 0.65rem; color: #444; letter-spacing: 3px; border-top: 1px solid #111; margin-top: 50px; }
-        .status-dot { color: #00ff00; margin-right: 8px; }
+        footer { text-align: center; padding: 40px 20px; font-size: 0.6rem; color: #444; letter-spacing: 2px; border-top: 1px solid #111; line-height: 1.8; }
+        .status-dot { color: #00ff00; margin-right: 5px; }
     </style>
 </head>
 <body>
@@ -83,9 +98,9 @@
 <div class="bg-overlay"></div>
 
 <nav>
-    <a onclick="showPage('home')" id="nav-home" class="active">Ufficio Maze Bank</a>
-    <a onclick="showPage('database')" id="nav-database">Database Proprietà</a>
-    <a onclick="showPage('contact')" id="nav-contact">Richiesta Appuntamento</a>
+    <a onclick="showPage('home')" id="nav-home" class="active">Ufficio</a>
+    <a onclick="showPage('database')" id="nav-database">Database</a>
+    <a onclick="showPage('contact')" id="nav-contact">Appuntamento</a>
 </nav>
 
 <div id="home" class="page active">
@@ -94,9 +109,9 @@
         <h1>DYNASTY LUXE</h1>
     </header>
     <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-        <div style="background: var(--card); border: 1px solid var(--border); padding: 40px;">
-            <h2 style="color: var(--gold); margin-bottom: 25px; font-family: 'Playfair Display';">La Nostra Eredità</h2>
-            <p style="color: #bbb; line-height: 1.8;">Fondata sulla vetta finanziaria di Los Santos, Dynasty Luxe è un sistema di gestione patrimoniale che garantisce persistenza, anonimato e un'efficienza senza pari.</p>
+        <div style="background: var(--card); border: 1px solid var(--border); padding: 30px;">
+            <h2 style="color: var(--gold); margin-bottom: 20px; font-family: 'Playfair Display'; font-size: 1.5rem;">La Nostra Eredità</h2>
+            <p style="color: #bbb; line-height: 1.6; font-size: 0.85rem;">Fondata sulla vetta finanziaria di Los Santos, Dynasty Luxe garantisce persistenza, anonimato e un'efficienza senza pari.</p>
         </div>
     </div>
 </div>
@@ -104,13 +119,13 @@
 <div id="database" class="page">
     <header>
         <div class="hq-tag">Executive Asset Database</div>
-        <h2 style="font-family: 'Playfair Display'; color: var(--gold); font-size: 2.5rem; letter-spacing: 8px; text-align: center;">ARCHIVIO COMPLETO</h2>
+        <h2 style="font-family: 'Playfair Display'; color: var(--gold); font-size: 1.8rem; letter-spacing: 4px; text-align: center;">ARCHIVIO COMPLETO</h2>
     </header>
 
     <div class="accordion">
         <div class="acc-item">
             <div class="acc-header" onclick="toggleAcc(this)">
-                <h3>High-End & Stilt Houses (10 Slots)</h3>
+                <h3>High-End (10 Slots)</h3>
                 <span>+</span>
             </div>
             <div class="acc-content">
@@ -143,7 +158,7 @@
 
         <div class="acc-item">
             <div class="acc-header" onclick="toggleAcc(this)">
-                <h3>Standard Apartments (6 Slots)</h3>
+                <h3>Standard (6 Slots)</h3>
                 <span>+</span>
             </div>
             <div class="acc-content">
@@ -162,7 +177,7 @@
 
         <div class="acc-item">
             <div class="acc-header" onclick="toggleAcc(this)">
-                <h3>Low-End Housing & Garages</h3>
+                <h3>Housing & Garages</h3>
                 <span>+</span>
             </div>
             <div class="acc-content">
@@ -179,23 +194,23 @@
 <div id="contact" class="page">
     <header>
         <div class="hq-tag">Private Appointment Service</div>
-        <h2 style="font-family: 'Playfair Display'; color: var(--gold); font-size: 2.5rem; letter-spacing: 8px; text-align: center;">RICHIESTA APPUNTAMENTO</h2>
+        <h2 style="font-family: 'Playfair Display'; color: var(--gold); font-size: 1.8rem; letter-spacing: 4px; text-align: center;">APPUNTAMENTO</h2>
     </header>
     <div class="contact-form">
-        <p class="form-desc">Invia una richiesta formale per immobili a catalogo, acquisizioni edifici o consulenze patrimoniali.</p>
+        <p class="form-desc">Invia una richiesta formale per immobili a catalogo o consulenze esterne.</p>
         <form id="dynastyForm">
             <input type="text" id="fullName" placeholder="NOME E COGNOME" required>
-            <input type="text" id="phone" placeholder="RECAPITO (TELEFONONICO)" required>
-            <input type="text" id="propInterest" placeholder="IMOBILE O AREA DI INTERESSE" required>
-            <textarea id="notes" rows="4" placeholder="DESCRIZIONE DETTAGLIATA O MOTIVO DELL'APPUNTAMENTO..."></textarea>
-            <button type="submit" class="btn-gold">Protocolla al Piano 42</button>
+            <input type="text" id="phone" placeholder="RADIO / TELEFONO" required>
+            <input type="text" id="propInterest" placeholder="IMOBILE / AREA DI INTERESSE" required>
+            <textarea id="notes" rows="4" placeholder="DETTAGLI AGGIUNTIVI..."></textarea>
+            <button type="submit" class="btn-gold">Protocolla</button>
         </form>
     </div>
 </div>
 
 <footer>
-    <span class="status-dot">●</span> DATABASE JSON PERSISTENTE OPERATIVO | 2026<br>
-    DYNASTY LUXE | MAZE BANK TOWER LS | PIANO 42
+    <span class="status-dot">●</span> DATABASE OPERATIVO | 2026<br>
+    DYNASTY LUXE | MAZE BANK TOWER | PIANO 42
 </footer>
 
 <script>
@@ -235,7 +250,7 @@
         
         fetch(webHook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
         .then(() => {
-            alert('Richiesta inviata correttamente. La contatteremo sulla radio o recapito fornito.');
+            alert('Richiesta inviata correttamente.');
             document.getElementById('dynastyForm').reset();
         });
     });
