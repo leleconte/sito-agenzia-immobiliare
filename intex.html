@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynasty Luxe | Full Inventory</title>
+    <title>Dynasty Luxe | Real Estate Prestige</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@200;300;500&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,144 +12,239 @@
             --card-bg: #0f0f0f;
             --text-light: #f4f4f4;
             --border: #1a1a1a;
+            --gold-gradient: linear-gradient(45deg, #c5a059, #f9e2af, #c5a059);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--dark-bg); color: var(--text-light); font-family: 'Montserrat', sans-serif; line-height: 1.5; }
+        body { 
+            background-color: var(--dark-bg); 
+            color: var(--text-light); 
+            font-family: 'Montserrat', sans-serif; 
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-        /* Header Elegante */
+        /* Header con parallasse simulato */
         header {
-            height: 50vh;
+            height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             border-bottom: 1px solid var(--gold);
-            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80');
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=80');
             background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
-        h1 { font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); letter-spacing: 12px; text-align: center; }
-        .promo-tag { border: 1px solid var(--gold); padding: 8px 25px; margin-top: 20px; letter-spacing: 3px; font-size: 0.7rem; color: var(--gold); }
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: clamp(2.5rem, 8vw, 4.5rem); 
+            color: var(--gold); 
+            letter-spacing: 15px; 
+            text-align: center;
+            text-transform: uppercase;
+        }
 
-        .container { max-width: 1400px; margin: 40px auto; padding: 0 30px; }
+        .promo-tag { 
+            border: 1px solid var(--gold); 
+            padding: 10px 30px; 
+            margin-top: 25px; 
+            letter-spacing: 4px; 
+            font-size: 0.8rem; 
+            color: var(--gold);
+            text-transform: uppercase;
+            animation: fadeIn 2s ease;
+        }
+
+        .container { max-width: 1400px; margin: 60px auto; padding: 0 30px; }
         
-        .section-nav { display: flex; justify-content: center; gap: 30px; margin-bottom: 60px; font-size: 0.8rem; letter-spacing: 2px; }
-        .section-nav a { color: var(--gold); text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
-        .section-nav a:hover { border-bottom: 1px solid var(--gold); }
+        /* Navigazione Categorie */
+        .section-nav { 
+            display: flex; 
+            justify-content: center; 
+            flex-wrap: wrap;
+            gap: 20px 40px; 
+            margin-bottom: 80px; 
+            font-size: 0.75rem; 
+            letter-spacing: 3px; 
+            text-transform: uppercase;
+        }
+        .section-nav a { 
+            color: var(--text-light); 
+            text-decoration: none; 
+            transition: 0.3s;
+            opacity: 0.6;
+        }
+        .section-nav a:hover { opacity: 1; color: var(--gold); }
 
-        h2.cat-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--gold); margin: 80px 0 40px; border-left: 3px solid var(--gold); padding-left: 20px; }
+        h2.cat-title { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.2rem; 
+            color: var(--gold); 
+            margin: 100px 0 40px; 
+            border-left: 3px solid var(--gold); 
+            padding-left: 20px; 
+            letter-spacing: 2px;
+        }
 
-        /* Grid System */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        /* Card Design Migliorato */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 30px; 
+        }
 
-        .card { background: var(--card-bg); border: 1px solid var(--border); transition: 0.4s; }
-        .card:hover { border-color: var(--gold); transform: translateY(-5px); }
-        .card-img { width: 100%; height: 160px; object-fit: cover; filter: brightness(0.7); transition: 0.4s; }
-        .card:hover .card-img { filter: brightness(1); }
+        .card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border); 
+            transition: 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            overflow: hidden;
+            position: relative;
+        }
+        .card:hover { 
+            border-color: var(--gold); 
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
         
-        .card-content { padding: 20px; }
-        .card-name { font-weight: 500; font-size: 0.9rem; margin-bottom: 10px; min-height: 40px; }
-        .price-wrap { display: flex; align-items: center; gap: 12px; }
-        .old-p { text-decoration: line-through; color: #555; font-size: 0.8rem; }
-        .new-p { color: var(--gold); font-weight: bold; font-size: 1.1rem; }
+        .img-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .card-img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            filter: brightness(0.6) grayscale(30%); 
+            transition: 0.6s; 
+        }
+        .card:hover .card-img { 
+            filter: brightness(1) grayscale(0%);
+            transform: scale(1.1);
+        }
+        
+        .card-content { padding: 25px; border-top: 1px solid var(--border); }
+        .card-name { font-weight: 500; font-size: 0.95rem; margin-bottom: 12px; letter-spacing: 1px; color: #fff; }
+        
+        .price-wrap { display: flex; align-items: baseline; gap: 15px; }
+        .old-p { text-decoration: line-through; color: #555; font-size: 0.85rem; }
+        .new-p { color: var(--gold); font-weight: bold; font-size: 1.2rem; letter-spacing: 1px; }
 
         /* Form Professionale */
-        .booking-area { background: #080808; padding: 100px 0; border-top: 1px solid var(--border); }
-        .form-box { max-width: 600px; margin: 0 auto; }
-        .form-box input, .form-box select, .form-box textarea { 
-            width: 100%; background: transparent; border: 1px solid var(--border); padding: 18px; 
-            color: white; margin-bottom: 20px; font-family: inherit;
+        .booking-area { 
+            background: #080808; 
+            padding: 120px 0; 
+            border-top: 1px solid var(--border); 
+            margin-top: 100px;
         }
-        .form-box input:focus, .form-box select:focus { border-color: var(--gold); outline: none; }
-        .btn-submit { 
-            width: 100%; background: var(--gold); color: black; border: none; padding: 20px; 
-            font-weight: bold; cursor: pointer; letter-spacing: 4px; text-transform: uppercase; transition: 0.3s;
+        .form-box { max-width: 650px; margin: 0 auto; padding: 0 20px; }
+        .form-box h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
         }
-        .btn-submit:hover { background: white; }
 
-        footer { text-align: center; padding: 80px; color: #333; font-size: 0.7rem; letter-spacing: 3px; }
+        .form-box input, .form-box select, .form-box textarea { 
+            width: 100%; 
+            background: #0a0a0a; 
+            border: 1px solid var(--border); 
+            padding: 20px; 
+            color: white; 
+            margin-bottom: 25px; 
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        .form-box input:focus, .form-box select:focus { border-color: var(--gold); outline: none; background: #111; }
+        
+        .btn-submit { 
+            width: 100%; 
+            background: var(--gold); 
+            color: black; 
+            border: none; 
+            padding: 22px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            letter-spacing: 4px; 
+            text-transform: uppercase; 
+            transition: 0.4s;
+        }
+        .btn-submit:hover { 
+            background: white; 
+            letter-spacing: 6px;
+        }
+
+        footer { 
+            text-align: center; 
+            padding: 100px; 
+            color: #444; 
+            font-size: 0.7rem; 
+            letter-spacing: 4px; 
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
 <header>
     <h1>DYNASTY LUXE</h1>
-    <div class="promo-tag">L'INTERO CATALOGO RESIDENZIALE AL -50%</div>
+    <div class="promo-tag">Residential Portfolio | Exclusive -50% Off</div>
 </header>
 
 <div class="container">
     <div class="section-nav">
-        <a href="#high">HIGH-END</a>
-        <a href="#stilt">STILT HOUSES</a>
-        <a href="#mid">MID & LOW RANGE</a>
-        <a href="#garages">GARAGES</a>
+        <a href="#high">High-End & Penthouse</a>
+        <a href="#stilt">Vinewood Stilt Houses</a>
+        <a href="#mid">Residential Mid-Range</a>
+        <a href="#garages">Garage & Showrooms</a>
     </div>
 
     <h2 id="high" class="cat-title">Appartamenti High-End & Penthouse</h2>
     <div class="grid">
         <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/eclipse-towers.jpg" class="card-img">
+            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/eclipse-towers.jpg" class="card-img"></div>
             <div class="card-content">
                 <div class="card-name">Eclipse Towers (Tutte le Suite)</div>
                 <div class="price-wrap"><span class="old-p">$1,100,000</span><span class="new-p">$550,000</span></div>
             </div>
         </div>
         <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/tinsel-towers.jpg" class="card-img">
+            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/tinsel-towers.jpg" class="card-img"></div>
             <div class="card-content">
                 <div class="card-name">Tinsel Towers (Apt 42, 45, 29)</div>
                 <div class="price-wrap"><span class="old-p">$491,000</span><span class="new-p">$245,500</span></div>
             </div>
         </div>
         <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/del-perro-heights.jpg" class="card-img">
+            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/del-perro-heights.jpg" class="card-img"></div>
             <div class="card-content">
                 <div class="card-name">Del Perro Heights (Apt 7, 20)</div>
                 <div class="price-wrap"><span class="old-p">$468,000</span><span class="new-p">$234,000</span></div>
             </div>
         </div>
-        <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/weazel-plaza.jpg" class="card-img">
-            <div class="card-content">
-                <div class="card-name">Weazel Plaza (Apt 101, 70, 26)</div>
-                <div class="price-wrap"><span class="old-p">$335,000</span><span class="new-p">$167,500</span></div>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/richards-majestic.jpg" class="card-img">
-            <div class="card-content">
-                <div class="card-name">Richards Majestic (Apt 51, 4)</div>
-                <div class="price-wrap"><span class="old-p">$253,000</span><span class="new-p">$126,500</span></div>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/alta-st.jpg" class="card-img">
-            <div class="card-content">
-                <div class="card-name">3 Alta St (Apt 10, 57)</div>
-                <div class="price-wrap"><span class="old-p">$223,000</span><span class="new-p">$111,500</span></div>
-            </div>
-        </div>
     </div>
 
-    <h2 id="stilt" class="cat-title">Stilt Houses (Ville Vinewood Hills)</h2>
+    <h2 id="stilt" class="cat-title">Stilt Houses (Vinewood Hills)</h2>
     <div class="grid">
         <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/3655-wild-oats-drive.jpg" class="card-img">
+            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/3655-wild-oats-drive.jpg" class="card-img"></div>
             <div class="card-content">
                 <div class="card-name">3655 Wild Oats Drive</div>
                 <div class="price-wrap"><span class="old-p">$800,000</span><span class="new-p">$400,000</span></div>
             </div>
         </div>
         <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/2044-north-conker-avenue.jpg" class="card-img">
-            <div class="card-content">
-                <div class="card-name">2044 North Conker Avenue</div>
-                <div class="price-wrap"><span class="old-p">$762,000</span><span class="new-p">$381,000</span></div>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/2862-hillcrest-avenue.jpg" class="card-img">
+            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/2862-hillcrest-avenue.jpg" class="card-img"></div>
             <div class="card-content">
                 <div class="card-name">2862 Hillcrest Avenue</div>
                 <div class="price-wrap"><span class="old-p">$705,000</span><span class="new-p">$352,500</span></div>
@@ -157,52 +252,20 @@
         </div>
     </div>
 
-    <h2 id="mid" class="cat-title">Medium & Low Range Apartments</h2>
+    <h2 id="garages" class="cat-title">Garage & Showroom</h2>
     <div class="grid">
         <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/0115-bay-city-ave.jpg" class="card-img">
+            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/garages/eclipse-boulevard-garage.jpg" class="card-img"></div>
             <div class="card-content">
-                <div class="card-name">0115 Bay City Ave, Apt 45</div>
-                <div class="price-wrap"><span class="old-p">$150,000</span><span class="new-p">$75,000</span></div>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/dream-tower.jpg" class="card-img">
-            <div class="card-content">
-                <div class="card-name">Dream Tower, Apt 15</div>
-                <div class="price-wrap"><span class="old-p">$134,000</span><span class="new-p">$67,000</span></div>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/apartments/vespucci-blvd.jpg" class="card-img">
-            <div class="card-content">
-                <div class="card-name">0112 Vespucci Blvd, Apt 9</div>
-                <div class="price-wrap"><span class="old-p">$115,000</span><span class="new-p">$57,500</span></div>
-            </div>
-        </div>
-    </div>
-
-    <h2 id="garages" class="cat-title">Garage & Storage Soluzioni</h2>
-    <div class="grid">
-        <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/garages/eclipse-boulevard-garage.jpg" class="card-img">
-            <div class="card-content">
-                <div class="card-name">Eclipse Blvd Multi-Floor (50 Cars)</div>
+                <div class="card-name">Eclipse Blvd (50 Posti Auto)</div>
                 <div class="price-wrap"><span class="old-p">$2,740,000</span><span class="new-p">$1,370,000</span></div>
             </div>
         </div>
         <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/garages/unit-2-popular-st.jpg" class="card-img">
+            <div class="img-container"><img src="https://media.gtabase.com/images/gta-5/properties/gta-online/garages/unit-2-popular-st.jpg" class="card-img"></div>
             <div class="card-content">
-                <div class="card-name">Unit 2 Popular St (10 Cars)</div>
+                <div class="card-name">Unit 2 Popular St (10 Posti)</div>
                 <div class="price-wrap"><span class="old-p">$142,500</span><span class="new-p">$71,250</span></div>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://media.gtabase.com/images/gta-5/properties/gta-online/garages/greenwich-parkway.jpg" class="card-img">
-            <div class="card-content">
-                <div class="card-name">Greenwich Parkway (10 Cars)</div>
-                <div class="price-wrap"><span class="old-p">$120,000</span><span class="new-p">$60,000</span></div>
             </div>
         </div>
     </div>
@@ -210,19 +273,19 @@
 
 <div class="booking-area">
     <div class="form-box">
-        <h2 style="font-family: 'Playfair Display', serif; color: var(--gold); text-align: center; margin-bottom: 40px;">PRIVATE CONSULTATION</h2>
+        <h2>Private Consultation</h2>
         <form id="dynastyForm">
             <input type="text" id="fullName" placeholder="NOME COMPLETO" required>
             <input type="text" id="phone" placeholder="NUMERO DI TELEFONO" required>
-            <input type="text" id="propName" placeholder="EDIFICIO INDIVIDUATO (es: Eclipse Towers Apt 31)" required>
-            <textarea id="details" rows="4" placeholder="REQUISITI AGGIUNTIVI (Esempio: colore arredamento, orario visita)"></textarea>
-            <button type="submit" class="btn-submit">Invia Richiesta al Database</button>
+            <input type="text" id="propName" placeholder="NOME IMMOBILE (es. Eclipse Suite 31)" required>
+            <textarea id="details" rows="4" placeholder="NOTE AGGIUNTIVE (Esempio: orario per il tour dell'immobile)"></textarea>
+            <button type="submit" class="btn-submit">Invia Richiesta Acquisizione</button>
         </form>
     </div>
 </div>
 
 <footer>
-    DYNASTY LUXE REAL ESTATE &copy; 2026 | LOS SANTOS | PERSISTENCE & EFFICIENCY
+    Dynasty Luxe Real Estate &copy; 2026 | Los Santos Prestige | Efficient & Persistent
 </footer>
 
 <script>
@@ -233,15 +296,15 @@
 
         const payload = {
             embeds: [{
-                title: "🏠 Nuova Acquisizione Dynasty Luxe",
+                title: "💎 NUOVA ACQUISIZIONE - DYNASTY LUXE",
                 color: 12951641,
                 fields: [
                     { name: "👤 Cliente", value: document.getElementById('fullName').value, inline: true },
                     { name: "📞 Telefono", value: document.getElementById('phone').value, inline: true },
-                    { name: "🏢 Edificio Scelto", value: document.getElementById('propName').value, inline: false },
-                    { name: "📝 Note Cliente", value: document.getElementById('details').value || "Nessuna specifica" }
+                    { name: "🏢 Immobile Scelto", value: document.getElementById('propName').value, inline: false },
+                    { name: "📝 Note", value: document.getElementById('details').value || "Nessuna specifica" }
                 ],
-                footer: { text: "Session ID: Persistent-2026" },
+                footer: { text: "Database Persistent | 2026" },
                 timestamp: new Date()
             }]
         };
@@ -251,8 +314,11 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         }).then(() => {
-            alert('Richiesta archiviata con successo nel sistema persistent.');
+            alert('Grazie per aver scelto Dynasty Luxe. La tua richiesta è stata registrata nei nostri sistemi.');
             document.getElementById('dynastyForm').reset();
+        }).catch(err => {
+            alert('Errore di connessione al database.');
+            console.error(err);
         });
     });
 </script>
